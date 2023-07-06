@@ -2,6 +2,8 @@ Game.registerMod('EfficienyTooltips', {
 
     init: function() {
         // Buildings
+        console.log('EfficienyTooltips init')
+        console.log(Game.ObjectsById)
         for (let i in Game.ObjectsById)
         {
             let me = Game.ObjectsById[i];
