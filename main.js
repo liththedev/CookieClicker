@@ -1,3 +1,4 @@
+console.log('EfficienyTooltips says hello!')
 Game.registerMod('EfficienyTooltips', {
 
     init: function() {
