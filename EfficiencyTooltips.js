@@ -1,9 +1,9 @@
-console.log('EfficienyTooltips says hello!')
-Game.registerMod('EfficienyTooltips', {
+console.log('EfficiencyTooltips says hello!')
+Game.registerMod('EfficiencyTooltips', {
 
     init: function() {
         // Buildings
-        console.log('EfficienyTooltips init')
+        console.log('EfficiencyTooltips init')
         console.log(Game.ObjectsById)
         for (let i in Game.ObjectsById)
         {
