@@ -28,7 +28,7 @@ Game.registerMod('EfficiencyTooltips', {
                     }
                     let additionalCps = Game.cookiesPs * me.power / 100
                     let seconds = me.getPrice() / additionalCps
-                    let time = Game.sayTime(seconds, -1)
+                    let time = Game.sayTime(Game.fps*seconds, -1)
                     let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
                     return oldDesc + extraDisc
                 }
@@ -42,7 +42,7 @@ Game.registerMod('EfficiencyTooltips', {
                     }
                     let additionalCps = me.buildingTie1.storedTotalCps * Game.globalCpsMult
                     let seconds = me.getPrice() / additionalCps
-                    let time = Game.sayTime(seconds, -1)
+                    let time = Game.sayTime(Game.fps*seconds, -1)
                     let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
                     return oldDesc + extraDisc
                 }
@@ -56,10 +56,10 @@ Game.registerMod('EfficiencyTooltips', {
                     }
                     let additionalCpsGrandmas = Game.Objects['Grandma'].storedTotalCps * Game.globalCpsMult
                     let synergyMult = Game.Objects['Grandma'].amount*0.01*(1/(me.buildingTie.id-1))
-                    let additionalCpsSynergy = synergyMult * me.buildingTie.storedTotalCps
+                    let additionalCpsSynergy = synergyMult * me.buildingTie.storedTotalCps * Game.globalCpsMult
                     let additionalCps = additionalCpsGrandmas + additionalCpsSynergy
                     let seconds = me.getPrice() / additionalCps
-                    let time = Game.sayTime(seconds, -1)
+                    let time = Game.sayTime(Game.fps*seconds, -1)
                     let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
                     return oldDesc + extraDisc
                 }
