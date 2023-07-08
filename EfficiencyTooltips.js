@@ -46,6 +46,23 @@ Game.registerMod('EfficiencyTooltips', {
                     let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
                     return oldDesc + extraDisc
                 }
+            // Grandmas
+            } else if (Game.GrandmaSynergies.indexOf(me.name) > -1){
+                let oldDescFunc = me.descFunc
+                me.descFunc = function() {
+                    let oldDesc = me.ddesc
+                    if (oldDescFunc) {
+                        oldDesc = oldDescFunc.apply(me)
+                    }
+                    let additionalCpsGrandmas = Game.Objects['Grandma'].storedTotalCps * Game.globalCpsMult
+                    let synergyMult = Game.Objects['Grandma'].amount*0.01*(1/(me.buildingTie.id-1))
+                    let additionalCpsSynergy = synergyMult * me.buildingTie.storedTotalCps
+                    let additionalCps = additionalCpsGrandmas + additionalCpsSynergy
+                    let seconds = me.getPrice() / additionalCps
+                    let time = Game.sayTime(seconds, -1)
+                    let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
+                    return oldDesc + extraDisc
+                }
             }
         }
     },
