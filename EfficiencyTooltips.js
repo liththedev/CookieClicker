@@ -78,7 +78,7 @@ Game.registerMod('EfficiencyTooltips', {
 								synergyBoost+=boost;
 							}
 						}
-                        additionalCps += synergyBoost
+                        additionalCps += synergyBoost / me.amount
 					}
                     time = Game.sayTime(Game.fps*me.price/additionalCps, -1)
                 } else {
