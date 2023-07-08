@@ -5,8 +5,7 @@ Game.registerMod('EfficiencyTooltips', {
         // Buildings
         console.log('EfficiencyTooltips init')
         console.log(Game.ObjectsById)
-        for (let i in Game.ObjectsById)
-        {
+        for (let i in Game.ObjectsById) {
             let me = Game.ObjectsById[i];
             let originalTooltip = me.tooltip
             me.tooltip = function() {
@@ -17,6 +16,22 @@ Game.registerMod('EfficiencyTooltips', {
             }
         }
         // Upgrades
-        // TODO
+        for (let i in Game.UpgradesById) {
+            let me = Game.UpgradesById[i]
+            if (me.pool == 'cookie') {
+                let oldDescFunc = me.descFunc
+                me.descFunc = function() {
+                    let oldDesc = me.ddesc
+                    if (oldDescFunc) {
+                        oldDesc = oldDescFunc.apply(me)
+                    }
+                    let additionalCps = Game.cookiesPs * me.power / 100
+                    let seconds = me.getPrice() / additionalCps
+                    let time = Game.sayTime(seconds, -1)
+                    let extraDisc = '<div>Time this upgrade to pay for itself: ' + time + '</div>'
+                    return oldDesc + extraDisc
+                }
+            }
+        }
     },
 });
