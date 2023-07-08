@@ -18,6 +18,7 @@ Game.registerMod('EfficiencyTooltips', {
         // Upgrades
         for (let i in Game.UpgradesById) {
             let me = Game.UpgradesById[i]
+            // Cookies
             if (me.pool == 'cookie') {
                 let oldDescFunc = me.descFunc
                 me.descFunc = function() {
@@ -28,7 +29,21 @@ Game.registerMod('EfficiencyTooltips', {
                     let additionalCps = Game.cookiesPs * me.power / 100
                     let seconds = me.getPrice() / additionalCps
                     let time = Game.sayTime(seconds, -1)
-                    let extraDisc = '<div>Time this upgrade to pay for itself: ' + time + '</div>'
+                    let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
+                    return oldDesc + extraDisc
+                }
+            // Tiered Upgrade
+            } else if (me.buildingTie1 && !me.buildingTie2) {
+                let oldDescFunc = me.descFunc
+                me.descFunc = function() {
+                    let oldDesc = me.ddesc
+                    if (oldDescFunc) {
+                        oldDesc = oldDescFunc.apply(me)
+                    }
+                    let additionalCps = me.buildingTie1.storedTotalCps * Game.globalCpsMult
+                    let seconds = me.getPrice() / additionalCps
+                    let time = Game.sayTime(seconds, -1)
+                    let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
                     return oldDesc + extraDisc
                 }
             }
