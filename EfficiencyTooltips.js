@@ -29,6 +29,7 @@ Game.registerMod('EfficiencyTooltips', {
                 return originalOut + extraOut + '</div>' // add back the last div
             }
         }
+        let missingEfficiencyInfo = []
         // Upgrades
         for (let i in Game.UpgradesById) {
             let me = Game.UpgradesById[i]
@@ -90,7 +91,10 @@ Game.registerMod('EfficiencyTooltips', {
                     let extraDisc = '<div>Number of clicks for this upgrade to pay for itself: ' + clicks + '</div>'
                     return oldDesc + extraDisc
                 }
+            } else {
+                missingEfficiencyInfo.push(me)
             }
         }
+        console.log('Missing efficiency logic for these upgrades', missingEfficiencyInfo)
     },
 });
