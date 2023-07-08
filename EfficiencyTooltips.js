@@ -65,7 +65,22 @@ Game.registerMod('EfficiencyTooltips', {
                 let originalOut = originalTooltip.apply(me).slice(0, -6) // slice out the last </div>
                 let time
                 if (me.storedTotalCps) {
-                    time = Game.sayTime(Game.fps*me.price/((me.storedTotalCps/me.amount)*Game.globalCpsMult), -1)
+                    let additionalCps = (me.storedTotalCps/me.amount)*Game.globalCpsMult
+                    if (me.name=='Grandma') {
+                        let synergyBoost = 0
+						for (var i in Game.GrandmaSynergies)
+						{
+							if (Game.Has(Game.GrandmaSynergies[i]))
+							{
+								var other=Game.Upgrades[Game.GrandmaSynergies[i]].buildingTie;
+								var mult=me.amount*0.01*(1/(other.id-1));
+								var boost=(other.storedTotalCps*Game.globalCpsMult)-(other.storedTotalCps*Game.globalCpsMult)/(1+mult);
+								synergyBoost+=boost;
+							}
+						}
+                        additionalCps += synergyBoost
+					}
+                    time = Game.sayTime(Game.fps*me.price/additionalCps, -1)
                 } else {
                     time = '???'
                 }
