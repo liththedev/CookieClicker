@@ -15,6 +15,25 @@ const MOUSE_PERCENTAGE_UPGRADES = [
     'Aetherice mouse',
     'Omniplast mouse',]
 
+const MISC_GLOBAL_MULTS = {
+			'Specialized chocolate chips': 1.01,
+			'Designer cocoa beans': 1.02,
+			'Underworld ovens': 1.03,
+			'Exotic nuts': 1.04,
+			'Arcane sugar': 1.05,
+			
+			'Increased merriness': 1.15,
+			'Improved jolliness': 1.15,
+			'A lump of coal': 1.01,
+			'An itchy sweater': 1.01,
+			'Santa\'s dominion': 1.2,
+			
+			'Fortune #100': 1.01,
+			'Fortune #101': 1.07,
+			
+			'Dragon scale': 1.03,
+}
+
 Game.registerMod('EfficiencyTooltips', {
 
     init: function() {
@@ -89,6 +108,19 @@ Game.registerMod('EfficiencyTooltips', {
                     let extraCookiesPerClick = Game.cookiesPs / 100
                     let clicks = Math.ceil(me.getPrice() / extraCookiesPerClick)
                     let extraDisc = '<div>Number of clicks for this upgrade to pay for itself: ' + clicks + '</div>'
+                    return oldDesc + extraDisc
+                }
+            } else if (me.name in MISC_GLOBAL_MULTS) {
+                let oldDescFunc = me.descFunc
+                me.descFunc = function() {
+                    let oldDesc = me.ddesc
+                    if (oldDescFunc) {
+                        oldDesc = oldDescFunc.apply(me)
+                    }
+                    let additionalCps = Game.cookiesPs * (MISC_GLOBAL_MULTS[me.name] - 1)
+                    let seconds = me.getPrice() / additionalCps
+                    let time = Game.sayTime(Game.fps*seconds, -1)
+                    let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
                     return oldDesc + extraDisc
                 }
             } else {
