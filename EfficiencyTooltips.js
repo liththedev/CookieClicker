@@ -1,10 +1,24 @@
-console.log('EfficiencyTooltips says hello!')
+const MOUSE_PERCENTAGE_UPGRADES = [
+    'Plastic mouse',
+    'Iron mouse',
+    'Titanium mouse',
+    'Adamantium mouse',
+    'Unobtainium mouse',
+    'Eludium mouse',
+    'Wishalloy mouse',
+    'Fantasteel mouse',
+    'Nevercrack mouse',
+    'Armythril mouse',
+    'Technobsidian mouse',
+    'Plasmarble mouse',
+    'Miraculite mouse',
+    'Aetherice mouse',
+    'Omniplast mouse',]
+
 Game.registerMod('EfficiencyTooltips', {
 
     init: function() {
         // Buildings
-        console.log('EfficiencyTooltips init')
-        console.log(Game.ObjectsById)
         for (let i in Game.ObjectsById) {
             let me = Game.ObjectsById[i];
             let originalTooltip = me.tooltip
@@ -47,7 +61,7 @@ Game.registerMod('EfficiencyTooltips', {
                     return oldDesc + extraDisc
                 }
             // Grandmas
-            } else if (Game.GrandmaSynergies.indexOf(me.name) > -1){
+            } else if (Game.GrandmaSynergies.includes(me.name)){
                 let oldDescFunc = me.descFunc
                 me.descFunc = function() {
                     let oldDesc = me.ddesc
@@ -61,6 +75,19 @@ Game.registerMod('EfficiencyTooltips', {
                     let seconds = me.getPrice() / additionalCps
                     let time = Game.sayTime(Game.fps*seconds, -1)
                     let extraDisc = '<div>Time for this upgrade to pay for itself: ' + time + '</div>'
+                    return oldDesc + extraDisc
+                }
+            // Mouse upgrades
+            } else if (MOUSE_PERCENTAGE_UPGRADES.includes(me.name)){
+                let oldDescFunc = me.descFunc
+                me.descFunc = function() {
+                    let oldDesc = me.ddesc
+                    if (oldDescFunc) {
+                        oldDesc = oldDescFunc.apply(me)
+                    }
+                    let extraCookiesPerClick = Game.cookiesPs / 100
+                    let clicks = Math.ceil(me.getPrice() / extraCookiesPerClick)
+                    let extraDisc = '<div>Number of clicks for this upgrade to pay for itself: ' + clicks + '</div>'
                     return oldDesc + extraDisc
                 }
             }
