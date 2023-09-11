@@ -34,6 +34,18 @@ const MISC_GLOBAL_MULTS = {
     'Dragon scale': 1.03,
 }
 
+const MISC_BUILDING_MULTS = {
+    'Bingo center/Research facility': {
+        'Grandma': 4
+    },
+    'Ritual rolling pins': {
+        'Grandma': 2
+    },
+    'Naughty list': {
+        'Grandma': 2
+    },
+}
+
 const KITTEN_MULTIPLIERS = {
     'Kitten helpers': 0.1,
     'Kitten workers': 0.125,
@@ -197,5 +209,13 @@ Game.registerMod('EfficiencyTooltips', {
             }
         }
         console.log('Missing efficiency logic for these upgrades', missingEfficiencyInfo)
+
+        let oldTickerFunc = Game.getNewTicker
+        Game.getNewTicker = function(manual) {
+            oldTickerFunc(manual)
+            if(Game.Ticker.indexOf('fortune') > -1) {
+                Game.playGoldenCookieChime()
+            }
+        }
     },
 });
